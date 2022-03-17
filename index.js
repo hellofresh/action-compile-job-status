@@ -85,7 +85,7 @@ const main = async () => {
    **/
   var status = 'success'
   for (const job of integral_jobs) {
-    if (job.conclusion != 'success') {
+    if (job.conclusion == 'failure') {
       status = 'failure'
     }
   }
