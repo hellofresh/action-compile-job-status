@@ -18,6 +18,9 @@ const main = async () => {
   const ignore_regex = core.getInput('IGNORE_JOBS', {
     required: true
   });
+  const set_context = core.getInput('SET_CONTEXT', {
+    required: true
+  });
 
   /**
    * Now we need to create an instance of Octokit which will use to call
@@ -118,7 +121,7 @@ const main = async () => {
   } = await octokit.rest.checks.create({
     owner,
     repo,
-    name: 'Status Check',
+    name: set_context,
     head_sha: github.context.payload.pull_request.head.sha,
     status: "completed",
     conclusion: status,
