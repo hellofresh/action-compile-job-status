@@ -8523,7 +8523,7 @@ const main = async () => {
           **/
         all_jobs.push({name: job.name, status: job.status, conclusion: job.conclusion})
 
-        if(!job.name.match(ignore_regex)){
+        if(!job.name.match(ignore_regex) && job.name == core.context.actions.job.name){
           integral_jobs.push({name: job.name, status: job.status, conclusion: job.conclusion})
         }
            
@@ -8568,7 +8568,7 @@ const main = async () => {
          * 
          * Reference: https://octokit.github.io/rest.js/v18#checks-create-check-run
         **/ 
-        const { data: check_run } = await octokit.rest.checks.createCheckRun({
+        const { data: check_run } = await octokit.rest.checks.create({
           owner,
           repo,
           name: 'Status Check',
