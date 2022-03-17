@@ -20,7 +20,7 @@ inputs:
   IGNORE_JOBS:
     description: job patterns to ignore
     required: false
-    default: ".*Best-practice|Report*" # (none | all | best-practices*,compliance*,...)
+    default: ".*Best-practice|Report|compile*" # (none | all | best-practices*,compliance*,...)
 
 runs:
   using: 'node16'

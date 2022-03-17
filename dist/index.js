@@ -8520,10 +8520,11 @@ const main = async () => {
          * check if the job.name matches the regex provided by the user(ignore_regex)
          * if it does not match, then we will add it to the integral_jobs array
          * if it does match, then we will skip it
+         * 
           **/
         all_jobs.push({name: job.name, status: job.status, conclusion: job.conclusion})
 
-        if(!job.name.match(ignore_regex) && job.name == core.context.actions.job.name){
+        if(!job.name.match(ignore_regex)){
           integral_jobs.push({name: job.name, status: job.status, conclusion: job.conclusion})
         }
            
