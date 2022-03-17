@@ -8498,7 +8498,7 @@ const main = async () => {
         owner,
         repo,
         name: 'Status Check',
-        head_sha: github.context.sha,
+        head_sha: github.context.payload.pull_request.head.sha,
         status: "in_progress",
         output: {
           title: 'Job Status Compilation',
@@ -8586,7 +8586,7 @@ const main = async () => {
           owner,
           repo,
           name: 'Status Check',
-          head_sha: github.context.sha,
+          head_sha: github.context.payload.pull_request.head.sha,
           status: "completed",
           conclusion: status,
           output: {
