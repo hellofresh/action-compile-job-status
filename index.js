@@ -29,19 +29,6 @@ const main = async () => {
    **/
   const octokit = new github.getOctokit(token);
 
-  await octokit.rest.checks.create({
-    owner,
-    repo,
-    name: 'Status Check',
-    head_sha: github.context.payload.pull_request.head.sha,
-    status: "in_progress",
-    output: {
-      title: 'Job Status Compilation',
-      summary: 'Integration Running...',
-      text: 'Running...',
-    }
-  });
-
   /**
    * We need to fetch the list of jobs that were executed in the  in the run
    * and store them in a variable.
@@ -115,11 +102,11 @@ const main = async () => {
    * Reference: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
    **/
   core.startGroup('All Job Details');
-  core.notice(tablemark(all_jobs));
+  core.notice(`\n${tablemark(all_jobs)}`);
   core.endGroup('All Job Details');
 
   core.startGroup('Integral Job Details');
-  core.notice(tablemark(integral_jobs));
+  core.notice(`\n${tablemark(integral_jobs)}`);
   core.endGroup('Integral Job Details');
 
   /** create check_run with status variable for this pull_request
@@ -138,7 +125,7 @@ const main = async () => {
     output: {
       title: 'Job Status Compilation',
       summary: 'please find the job status details below',
-      text: `\`\`\`${tablemark(integral_jobs)}\`\`\`}`,
+      text: `\`\`\`shell\n${tablemark(integral_jobs)}\n\`\`\`}`,
     }
   });
 
