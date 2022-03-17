@@ -1,0 +1,37 @@
+name: 'Compile workflow'
+description: 'Compile all jobs from workflow to create a status check'
+inputs:
+  GITHUB_TOKEN:
+    description: Secret GitHub API token to use for making API requests.
+    default: ${{ github.token }}
+    required: false
+  TARGET_RUN_ID:
+    description: Target run id
+    default: ${{ github.run_id }}
+    required: false
+  OUTPUT_ENV_NAME:
+    description: Env name used for output
+    required: false
+    default: STATUS
+  SET_CONTEXT:
+    description: Default check_run context to set for all jobs
+    required: false
+    default: status
+  IGNORE_JOBS:
+    description: job patterns to ignore
+    required: false
+    default: none # (none | all | best-practices*,compliance*,...)
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+
+
+outputs:
+  status:
+    description: Workflow status report
+
+
+branding:
+  icon: 'check-circle'
+  color: 'green'
