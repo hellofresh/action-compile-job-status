@@ -98,14 +98,12 @@ const main = async () => {
          * 
          * Reference: https://octokit.github.io/rest.js/v18#checks-create-check-run
         **/ 
-        await octokit.checks.create({
+        const { data: check_run } = await octokit.rest.checks.createCheckRun({
           owner,
           repo,
           name: 'Status Check',
           head_sha: github.context.sha,
           status: status,
-          started_at: new Date().toISOString(),
-          completed_at: new Date().toISOString(),
           output: {
             title: 'Job Status Compilation',
             summary: 'Integration',
