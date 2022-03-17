@@ -8506,16 +8506,16 @@ const main = async () => {
       });
       
   
-      console.log(`${jobs_list}`);
+      console.log(JSON.stringify(jobs_list));
       
-      core.info(`${jobs_list}`);
+      core.info(JSON.stringify(jobs_list));
   
       /**
        * Loop over all the jobs that were executed in the run and store them in a variable.
        **/
-      for (const job of jobs_list) {
-          pass
-      }
+    //   for (const job of jobs_list) {
+    //       pass
+    //   }
 
         /**
          * Now we export the variable to the environment.
