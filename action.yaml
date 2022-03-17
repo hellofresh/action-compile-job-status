@@ -23,26 +23,13 @@ inputs:
     default: none # (none | all | best-practices*,compliance*,...)
 
 runs:
-  using: composite
-  steps:
-    - uses: actions/setup-node@v2
-      with:
-        node-version: 16
+  using: 'node16'
+  main: 'dist/index.js'
 
-    - name: Install dependencies
-      working-directory: ${{ github.workflow.action.path }}
-      shell: bash
-      run: npm ci
-
-    - name: Install dependencies
-      working-directory: ${{ github.workflow.action.path }}
-      shell: bash
-      run: node index.js
 
 outputs:
   status:
     description: Workflow status report
-    value: ${{ steps.set-status.outputs.status }}
 
 
 branding:
