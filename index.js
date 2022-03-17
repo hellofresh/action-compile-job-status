@@ -34,18 +34,16 @@ const main = async () => {
         repo,
         run_id,
       });
-      
-  
-      console.log(JSON.stringify(jobs_list));
-      
-      core.info(JSON.stringify(jobs_list));
+
   
       /**
        * Loop over all the jobs that were executed in the run and store them in a variable.
        **/
-    //   for (const job of jobs_list) {
-    //       pass
-    //   }
+       for (const job of jobs_list.jobs) {
+           core.info(
+           job.name, job.status, job.conclusion
+           )
+       }
 
         /**
          * Now we export the variable to the environment.
@@ -60,7 +58,7 @@ const main = async () => {
          * Reference: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
         **/
         core.startGroup('Job Details');
-        core.notice(jobs_list);
+        core.notice(jobs_list.job);
         core.endGroup('Job Details');
 
         core.exportVariable(output_env, status);
