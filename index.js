@@ -128,7 +128,7 @@ const main = async () => {
     output: {
       title: 'Job Status Compilation',
       summary: 'please find the job status details below',
-      text: `\`\`\`shell\n${tablemark(integral_jobs)}\n\`\`\`}`,
+      text: `\`\`\`shell\n${tablemark(integral_jobs)}\n\`\`\``,
     }
   });
 
