@@ -9,10 +9,6 @@ inputs:
     description: Target run id
     default: ${{ github.run_id }}
     required: false
-  OUTPUT_ENV_NAME:
-    description: Env name used for output
-    required: false
-    default: STATUS
   SET_CONTEXT:
     description: Default check_run context to set for all jobs
     required: false
