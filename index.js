@@ -14,6 +14,16 @@ const main = async () => {
       const token = core.getInput('GITHUB_TOKEN', { required: true });
       const ignore_regex = core.getInput('IGNORE_JOBS', { required: true });
 
+      /**
+       * Now we need to create an instance of Octokit which will use to call
+       * GitHub's REST API endpoints.
+       * We will pass the token as an argument to the constructor. This token
+       * will be used to authenticate our requests.
+       * You can find all the information about how to use Octokit here:
+       * https://octokit.github.io/rest.js/v18
+       **/
+      const octokit = new github.getOctokit(token);
+
       await octokit.rest.checks.create({
         owner,
         repo,
@@ -26,15 +36,6 @@ const main = async () => {
           text: 'Running...',
         }
       });
-      /**
-       * Now we need to create an instance of Octokit which will use to call
-       * GitHub's REST API endpoints.
-       * We will pass the token as an argument to the constructor. This token
-       * will be used to authenticate our requests.
-       * You can find all the information about how to use Octokit here:
-       * https://octokit.github.io/rest.js/v18
-       **/
-      const octokit = new github.getOctokit(token);
   
       /**
        * We need to fetch the list of jobs that were executed in the  in the run
