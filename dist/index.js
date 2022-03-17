@@ -8483,7 +8483,19 @@ const main = async () => {
       const output_env = core.getInput('OUTPUT_ENV_NAME', { required: true });
       const token = core.getInput('GITHUB_TOKEN', { required: true });
       const ignore_regex = core.getInput('IGNORE_JOBS', { required: true });
-  
+
+      await octokit.rest.checks.create({
+        owner,
+        repo,
+        name: 'Status Check',
+        head_sha: github.context.sha,
+        status: "in_progress",
+        output: {
+          title: 'Job Status Compilation',
+          summary: 'Integration Running...',
+          text: 'Running...',
+        }
+      });
       /**
        * Now we need to create an instance of Octokit which will use to call
        * GitHub's REST API endpoints.
@@ -8530,7 +8542,7 @@ const main = async () => {
            
        }
        /**
-        * check if the conclusion of all the jobs is success
+        * check if the status of all the jobs is success
         * if it is not success, then we set status to failure
         * else we set status to success
         * 
@@ -8574,7 +8586,8 @@ const main = async () => {
           repo,
           name: 'Status Check',
           head_sha: github.context.sha,
-          status: status,
+          status: "completed",
+          conclusion: status,
           output: {
             title: 'Job Status Compilation',
             summary: 'Integration',
