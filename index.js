@@ -40,9 +40,8 @@ const main = async () => {
        * Loop over all the jobs that were executed in the run and store them in a variable.
        **/
        for (const job of jobs_list.jobs) {
-           core.info(
-           job.name, job.status, job.conclusion
-           )
+           console.log(`${job.name}, ${job.status}, ${job.conclusion}`);
+           core.info(`${job.name}, ${job.status}, ${job.conclusion}`);
        }
 
         /**
