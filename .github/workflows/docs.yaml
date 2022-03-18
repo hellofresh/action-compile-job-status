@@ -1,0 +1,23 @@
+---
+name: Check documentation
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs.yaml'
+
+jobs:
+  mkdocs:
+    name: "build"
+    runs-on: [self-hosted, default]
+    steps:
+      - name: Install mkdocs
+        run: pip3 install --user mkdocs mkdocs-techdocs-core
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build documentation
+        run: mkdocs build --strict

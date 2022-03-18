@@ -1,0 +1,88 @@
+name: Release Chart
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  CHART_REPO: "https://artifactory.tools-k8s.hellofresh.io/artifactory/helm"
+  ARTIFACTORY_API_BASE_URL: "https://artifactory.tools-k8s.hellofresh.io/artifactory/api"
+  ADD_REQUIREMENTS_REPOS: true
+
+jobs:
+
+  Directories:
+    name: Changed Charts
+    runs-on: [ self-hosted, default ]
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Get parent directory and set matrix
+        id: set-matrix
+        run: .github/scripts/changed_charts.sh
+
+  Publish:
+    needs: [ Directories ]
+    runs-on: [ self-hosted, default ]
+    strategy:
+      matrix: ${{ fromJson(needs.directories.outputs.matrix) }}
+    if: ${{ fromJson(needs.directories.outputs.matrix).include[0] }}
+    container:
+      image: 489198589229.dkr.ecr.eu-west-1.amazonaws.com/helm-chart-gen:helm3
+      volumes:
+        - /var/run/secrets:/var/run/secrets
+    env:
+      CHART_PATH: ${{ matrix.chart }}
+      JETSTREAM_SCRIPTS_PATH: "jetstream-ci-scripts"
+      VERSION_FILE: "../version"
+      APP_VERSION_FILE: "../appVersion"
+    steps:
+
+      - name: Import Secrets
+        id: vault-secrets
+        uses: hashicorp/vault-action@v2.3.0
+        with:
+          url: https://vault.hellofresh.io/
+          method: kubernetes
+          path: tools-k8s
+          role: github-actions-runners-read-default
+          secrets: |
+            gh-actions/global/defaults GITHUB_TOKEN | GITHUB_TOKEN;
+            gh-actions/global/defaults artifactory_password | ARTIFACTORY_PASSWORD;
+            gh-actions/global/defaults artifactory_username | ARTIFACTORY_USERNAME;
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Checkout jetstream-ci-scripts
+        uses: actions/checkout@v2
+        with:
+          repository: hellofresh/jetstream-ci-scripts
+          path: ${{ env.JETSTREAM_SCRIPTS_PATH }}
+          token: ${{ steps.vault-secrets.outputs.GITHUB_TOKEN }}
+
+      - name: Get Helm version for the chart
+        id: version
+        run: |
+          chartVersion="$(helm show chart "${CHART_PATH}" | grep 'version:' | tail -n1 | cut -d' ' -f2)"
+          appVersion="$(helm show chart "${CHART_PATH}" | grep 'appVersion:' | cut -d' ' -f2 | cut -d'"' -f2)"
+          apiVersion="$(grep "apiVersion" ${CHART_PATH}/Chart.yaml | cut -d' ' -f2)"
+          chartName="${CHART_PATH#*/}"
+          echo "::set-output name=VERSION::$chartVersion"
+          echo "::set-output name=APP_VERSION::$appVersion"
+          echo "::set-output name=API_VERSION::$apiVersion"
+          echo "::set-output name=CHART_NAME::$chartName"
+
+      - name: Create chart
+        run: "./.github/scripts/publish_chart.sh"
+        env:
+          CHART_NAME: ${{ steps.version.outputs.CHART_NAME }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+          APP_VERSION: ${{ steps.version.outputs.APP_VERSION }}
+          TAG_AS_LATEST: "true"

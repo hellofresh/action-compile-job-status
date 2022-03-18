@@ -12,4 +12,3 @@ containers/*/vendor/
 site
 __pycache__
 .vscode/*
-*node_modules*
