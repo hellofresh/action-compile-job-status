@@ -9227,16 +9227,16 @@ const main = async () => {
    **/
   const owner = github.context.repo.owner;
   const repo = github.context.repo.repo;
-  const run_id = core.getInput('target_run_id', {
+  const run_id = core.getInput('target-run-id', {
     required: true
   });
-  const token = core.getInput('github_token', {
+  const token = core.getInput('github-token', {
     required: true
   });
-  const ignore_regex = core.getInput('ignore_jobs', {
+  const ignore_regex = core.getInput('ignore-jobs', {
     required: true
   });
-  const set_context = core.getInput('set_context', {
+  const set_context = core.getInput('set-context', {
     required: true
   });
 
