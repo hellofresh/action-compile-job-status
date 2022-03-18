@@ -1,0 +1,8 @@
+*.backup
+.*.swap
+.DS_STORE
+.idea*
+.secrets_*
+__pycache__
+.vscode/*
+*node_modules*
