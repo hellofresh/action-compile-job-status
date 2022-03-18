@@ -1,14 +1,8 @@
-.terraform/
 *.backup
 .*.swap
-kubeconfig_*
-kubeconfig
-config-map-aws-auth_*
 .DS_STORE
-charts/external/kiam/secrets.yaml
 .idea*
 .secrets_*
-containers/*/vendor/
-site
 __pycache__
 .vscode/*
+*node_modules*
