@@ -1,19 +1,19 @@
 name: 'Compile workflow'
 description: 'Compile all jobs from workflow to create a status check'
 inputs:
-  github_token:
+  github-token:
     description: Secret GitHub API token to use for making API requests.
     default: ${{ github.token }}
     required: false
-  target_run_id:
+  target-run-id:
     description: Target run id
     default: ${{ github.run_id }}
     required: false
-  set_context:
+  set-context:
     description: Default check_run context to set for all jobs
     required: false
     default: status
-  ignore_jobs:
+  ignore-jobs:
     description: job patterns to ignore
     required: false
     default: ".*Best-practice|Report|compile*" # (none | all | best-practices*,compliance*,...)
