@@ -1,5 +1,0 @@
-# Default is for Cloud Runtime to own the repo
-*                                             @hellofresh/cloud-runtime
-
-# Allow Cloud Runtime to add policies
-/.github/*/                                    @hellofresh/cloud-runtime
