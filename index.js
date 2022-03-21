@@ -14,7 +14,7 @@ const main = async () => {
   const ignoreJobsRegex = core.getInput('ignore-jobs', {
     required: false,
   });
-  const checkRunTitle = core.getInput('set-context', {
+  const checkRunTitle = core.getInput('check-run-title', {
     required: true,
   });
   const checkRunName = core.getInput('check-run-name');
