@@ -9250,7 +9250,7 @@ const main = async () => {
   if (!ignoreJobsRegex) {
     ignoreRegex = github.context.job;
   } else {
-    ignoreRegex = `${ignoreJobsRegex}|${github.context.job}`
+    ignoreRegex = `${ignoreJobsRegex}|${github.context.job}`;
   }
 
 
