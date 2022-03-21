@@ -5,9 +5,7 @@ import tablemark from 'tablemark';
 const main = async () => {
   const owner = github.context.repo.owner;
   const repo = github.context.repo.repo;
-  const runId = core.getInput('target-run-id', {
-    required: true,
-  });
+  const runId = github.context.runId;
   const token = core.getInput('github-token', {
     required: true,
   });
@@ -18,6 +16,8 @@ const main = async () => {
     required: true,
   });
   const checkRunName = core.getInput('check-run-name');
+
+  console.log(github.context);
 
   // see: https://octokit.github.io/rest.js/v18
   // eslint-disable-next-line new-cap

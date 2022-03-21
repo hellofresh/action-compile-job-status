@@ -5,10 +5,6 @@ inputs:
     description: Secret GitHub API token to use for making API requests.
     default: ${{ github.token }}
     required: false
-  target-run-id:
-    description: Target run id
-    default: ${{ github.run_id }}
-    required: false
   check-run-name:
     description: Check_run name (used to set as required check to block merging PRs)
     default: status
