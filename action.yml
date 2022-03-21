@@ -15,7 +15,7 @@ inputs:
     required: false
   check-run-title:
     description: Check_run title
-    default: CI checks
+    default: title
     required: false
   ignore-jobs:
     description: Job patterns to ignore

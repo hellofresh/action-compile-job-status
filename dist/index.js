@@ -9216,7 +9216,6 @@ const alignmentOptions = {
 
 
 ;// CONCATENATED MODULE: ./index.js
-/* eslint-disable max-len */
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 
@@ -9230,14 +9229,13 @@ const main = async () => {
   const checkRunTitle = core.getInput('check-run-title');
   const checkRunName = core.getInput('check-run-name');
 
-  console.log(github.context.job);
-
   // see: https://octokit.github.io/rest.js/v18
   // eslint-disable-next-line new-cap
   const octokit = new github.getOctokit(token);
 
   // see: https://octokit.github.io/rest.js/v18#actions-list-jobs-for-workflow-run
-  const response = await octokit.rest.actions.listJobsForWorkflowRun({
+  const {
+    data: jobsList} = await octokit.rest.actions.listJobsForWorkflowRun({
     owner,
     repo,
     runId,
@@ -9253,9 +9251,9 @@ const main = async () => {
     ignoreRegex = `${ignoreJobsRegex}|${github.context.job}`;
   }
 
-  console.log(ignoreRegex);
-
-  const filteredJobs = response.data.jobs.filter((job) => !job.name.match(ignoreJobsRegex));
+  const filteredJobs = jobsList.jobs.filter(
+      (job) => !job.name.match(ignoreJobsRegex),
+  );
   const failure = filteredJobs.some((job) => job.conclusion == 'failure');
 
   // see: https://octokit.github.io/rest.js/v18#checks-create-check-run
