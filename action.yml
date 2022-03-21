@@ -1,33 +1,24 @@
-name: 'Compile workflow'
-description: 'Compile all jobs from workflow to create a status check'
+name: Workflow run check
+description: Create a check run from the result of all jobs in a workflow run
 inputs:
   github-token:
     description: Secret GitHub API token to use for making API requests.
     default: ${{ github.token }}
     required: false
-  target-run-id:
-    description: Target run id
-    default: ${{ github.run_id }}
-    required: false
-  set-context:
-    description: Default check_run context to set for all jobs
-    required: false
+  check-run-name:
+    description: Check_run name (used to set as required check to block merging PRs)
     default: status
-  ignore-jobs:
-    description: job patterns to ignore
     required: false
-    default: ".*Best-practice|Report|compile*" # (none | all | best-practices*,compliance*,...)
-
+  check-run-title:
+    description: Check_run title
+    default: Workflow run check summary
+    required: false
+  ignore-jobs:
+    description: Job patterns to ignore
+    required: false
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
-
-
-outputs:
-  status:
-    description: Workflow status report
-
-
+  using: node16
+  main: dist/index.js
 branding:
-  icon: 'check-circle'
-  color: 'green'
+  icon: check-circle
+  color: green
