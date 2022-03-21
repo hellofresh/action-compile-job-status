@@ -19,6 +19,7 @@ jobs:
       - run: npm run package
       - name: Check if dist/index.js is up-to-date
         run: git diff --exit-code
+      - run: env
 
   one:
     name: First
