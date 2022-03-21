@@ -33,7 +33,7 @@ jobs:
       - run: echo Hello
 
   check-run-defaults:
-    needs: [one, two]
+    needs: [package, one, two]
     name: Check run (defaults)
     runs-on: ubuntu-latest
     steps:

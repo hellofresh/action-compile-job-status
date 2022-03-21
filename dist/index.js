@@ -9223,7 +9223,6 @@ const github = __nccwpck_require__(5438);
 const main = async () => {
   const owner = github.context.repo.owner;
   const repo = github.context.repo.repo;
-  const runId = github.context.runId;
   const token = core.getInput('github-token', {
     required: true,
   });
@@ -9247,9 +9246,14 @@ const main = async () => {
   } = await octokit.rest.actions.listJobsForWorkflowRun({
     owner,
     repo,
-    runId,
+    run_id: github.context.runId,
   });
 
+/**
+ * https://api.github.com/repos/hellofresh/action-compile-job-status/actions/runs//jobs?runId=2016317686
+ * 
+ * GET /repos/{owner}/{repo}/actions/runs/{run_id}
+ *  */ 
 
   /**
    * set ignoreJobsRegex value to github context job name if not set

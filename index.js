@@ -31,7 +31,6 @@ const main = async () => {
     run_id: github.context.runId,
   });
 
-
   /**
    * set ignoreJobsRegex value to github context job name if not set
    * else concat ignoreJobsRegex with github context job name
