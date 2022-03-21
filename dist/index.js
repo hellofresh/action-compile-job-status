@@ -9249,12 +9249,6 @@ const main = async () => {
     run_id: github.context.runId,
   });
 
-/**
- * https://api.github.com/repos/hellofresh/action-compile-job-status/actions/runs//jobs?runId=2016317686
- * 
- * GET /repos/{owner}/{repo}/actions/runs/{run_id}
- *  */ 
-
   /**
    * set ignoreJobsRegex value to github context job name if not set
    * else concat ignoreJobsRegex with github context job name
