@@ -1,10 +1,12 @@
 {
-  "name": "action-compile",
+  "name": "action-compile-job-status",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint index.js",
+    "package": "ncc build index.js -o dist",
+    "test": "eslint index.js && jest --passWithNoTests"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,7 @@
     "tablemark": "^3.0.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.33.3"
+    "@vercel/ncc": "^0.33.3",
+    "eslint": "^8.3.0"
   }
 }
