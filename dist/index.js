@@ -9234,7 +9234,7 @@ const main = async () => {
   });
   const checkRunName = core.getInput('check-run-name');
 
-  console.log(github.context);
+  console.log(github);
 
   // see: https://octokit.github.io/rest.js/v18
   // eslint-disable-next-line new-cap
