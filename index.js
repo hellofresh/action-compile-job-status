@@ -33,9 +33,10 @@ const main = async () => {
     ignoreRegex = github.context.job;
   } else {
     ignoreRegex = `${ignoreJobsRegex}|${github.context.job}`
+  }
 
 
-  const filteredJobs = response.data.jobs.filter((job) => !job.name.match(ignoreRegex));
+  const filteredJobs = response.data.jobs.filter((job) => !job.name.match(ignoreJobsRegex));
   const failure = filteredJobs.some((job) => job.conclusion == 'failure');
 
   // see: https://octokit.github.io/rest.js/v18#checks-create-check-run

@@ -9230,7 +9230,7 @@ const main = async () => {
   const checkRunTitle = core.getInput('check-run-title');
   const checkRunName = core.getInput('check-run-name');
 
-  console.log(github.context);
+  console.log(github.context.job);
 
   // see: https://octokit.github.io/rest.js/v18
   // eslint-disable-next-line new-cap
@@ -9243,7 +9243,18 @@ const main = async () => {
     runId,
   });
 
-  const filteredJobs = response.data.jobs.filter((job) => !ignoreRegex || !job.name.match(ignoreJobsRegex));
+  /**
+   * set ignoreJobsRegex value to github context job name if not set
+   * else concat ignoreJobsRegex with github context job name
+   */
+  if (!ignoreJobsRegex) {
+    ignoreRegex = github.context.job;
+  } else {
+    ignoreRegex = `${ignoreJobsRegex}|${github.context.job}`
+  }
+
+
+  const filteredJobs = response.data.jobs.filter((job) => !job.name.match(ignoreJobsRegex));
   const failure = filteredJobs.some((job) => job.conclusion == 'failure');
 
   // see: https://octokit.github.io/rest.js/v18#checks-create-check-run
