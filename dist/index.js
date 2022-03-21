@@ -9230,7 +9230,7 @@ const main = async () => {
     required: true,
   });
   const ignoreJobsRegex = core.getInput('ignore-jobs', {
-    required: true,
+    required: false,
   });
   const checkRunTitle = core.getInput('set-context', {
     required: true,
