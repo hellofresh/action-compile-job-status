@@ -5,10 +5,18 @@ import tablemark from 'tablemark';
 const main = async () => {
   const owner = github.context.repo.owner;
   const repo = github.context.repo.repo;
-  const runId = core.getInput('target-run-id');
-  const token = core.getInput('github-token');
-  const ignoreJobsRegex = core.getInput('ignore-jobs');
-  const checkRunTitle = core.getInput('check-run-title');
+  const runId = core.getInput('target-run-id', {
+    required: true,
+  });
+  const token = core.getInput('github-token', {
+    required: true,
+  });
+  const ignoreJobsRegex = core.getInput('ignore-jobs', {
+    required: true,
+  });
+  const checkRunTitle = core.getInput('set-context', {
+    required: true,
+  });
   const checkRunName = core.getInput('check-run-name');
 
   // see: https://octokit.github.io/rest.js/v18
@@ -17,11 +25,13 @@ const main = async () => {
 
   // see: https://octokit.github.io/rest.js/v18#actions-list-jobs-for-workflow-run
   const {
-    data: jobsList} = await octokit.rest.actions.listJobsForWorkflowRun({
+    data: jobsList,
+  } = await octokit.rest.actions.listJobsForWorkflowRun({
     owner,
     repo,
     runId,
   });
+
 
   /**
    * set ignoreJobsRegex value to github context job name if not set
