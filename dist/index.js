@@ -9253,6 +9253,7 @@ const main = async () => {
     ignoreRegex = `${ignoreJobsRegex}|${github.context.job}`;
   }
 
+  console.log(ignoreRegex);
 
   const filteredJobs = response.data.jobs.filter((job) => !job.name.match(ignoreJobsRegex));
   const failure = filteredJobs.some((job) => job.conclusion == 'failure');
