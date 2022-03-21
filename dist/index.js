@@ -9241,26 +9241,16 @@ const main = async () => {
   const octokit = new github.getOctokit(token);
 
   // see: https://octokit.github.io/rest.js/v18#actions-list-jobs-for-workflow-run
-  const {
-    data: jobsList,
-  } = await octokit.rest.actions.listJobsForWorkflowRun({
+  const response = await octokit.rest.actions.listJobsForWorkflowRun({
     owner,
     repo,
     run_id: github.context.runId,
   });
 
-  /**
-   * set ignoreJobsRegex value to github context job name if not set
-   * else concat ignoreJobsRegex with github context job name
-   */
-  if (!ignoreJobsRegex) {
-    ignoreRegex = github.context.job;
-  } else {
-    ignoreRegex = `${ignoreJobsRegex}|${github.context.job}`;
-  }
-
-  const filteredJobs = jobsList.jobs.filter(
-      (job) => !job.name.match(ignoreJobsRegex),
+  const filteredJobs = response.data.jobs.filter(
+      (job) => (!ignoreJobsRegex ||
+        !job.name.match(ignoreJobsRegex) ||
+        job.name != github.context.job),
   );
   const failure = filteredJobs.some((job) => job.conclusion == 'failure');
 
