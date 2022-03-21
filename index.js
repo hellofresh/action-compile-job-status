@@ -5,7 +5,6 @@ import tablemark from 'tablemark';
 const main = async () => {
   const owner = github.context.repo.owner;
   const repo = github.context.repo.repo;
-  const runId = github.context.runId;
   const token = core.getInput('github-token', {
     required: true,
   });
@@ -29,7 +28,7 @@ const main = async () => {
   } = await octokit.rest.actions.listJobsForWorkflowRun({
     owner,
     repo,
-    runId,
+    run_id: github.context.runId,
   });
 
 
