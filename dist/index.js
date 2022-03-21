@@ -9234,8 +9234,6 @@ const main = async () => {
   });
   const checkRunName = core.getInput('check-run-name');
 
-  console.log(github);
-
   // see: https://octokit.github.io/rest.js/v18
   // eslint-disable-next-line new-cap
   const octokit = new github.getOctokit(token);
@@ -9247,10 +9245,11 @@ const main = async () => {
     run_id: github.context.runId,
   });
 
+  // FIXME: the current context doesn't have the numerical job ID, which makes it
+  // impossible to properly match to jobs returned from the API. Since we later
+  // match to only failed jobs, it's not a problem for now.
   const filteredJobs = response.data.jobs.filter(
-      (job) => (!ignoreJobsRegex ||
-        !job.name.match(ignoreJobsRegex) ||
-        job.name != github.context.job),
+      (job) => (job.status == 'completed' && !ignoreJobsRegex || !job.name.match(ignoreJobsRegex)),
   );
   const failure = filteredJobs.some((job) => job.conclusion == 'failure');
 
@@ -9264,8 +9263,7 @@ const main = async () => {
     conclusion: failure ? 'failure' : 'success',
     output: {
       title: checkRunTitle,
-      summary: tablemark_dist(filteredJobs),
-      text: tablemark_dist(filteredJobs),
+      summary: tablemark_dist(filteredJobs.map(job => ({ name: job.name, conclusion: job.conclusion })))
     },
   });
 };

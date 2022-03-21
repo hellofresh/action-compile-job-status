@@ -31,7 +31,7 @@ const main = async () => {
   // impossible to properly match to jobs returned from the API. Since we later
   // match to only failed jobs, it's not a problem for now.
   const filteredJobs = response.data.jobs.filter(
-      (job) => (!ignoreJobsRegex || !job.name.match(ignoreJobsRegex)),
+      (job) => (job.status == 'completed' && !ignoreJobsRegex || !job.name.match(ignoreJobsRegex)),
   );
   const failure = filteredJobs.some((job) => job.conclusion == 'failure');
 
@@ -45,8 +45,7 @@ const main = async () => {
     conclusion: failure ? 'failure' : 'success',
     output: {
       title: checkRunTitle,
-      summary: tablemark(filteredJobs),
-      text: tablemark(filteredJobs),
+      summary: tablemark(filteredJobs.map(job => ({ name: job.name, conclusion: job.conclusion })))
     },
   });
 };
