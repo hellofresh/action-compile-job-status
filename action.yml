@@ -11,7 +11,7 @@ inputs:
     required: false
   check-run-title:
     description: Check_run title
-    default: title
+    default: Workflow run check summary
     required: false
   ignore-jobs:
     description: Job patterns to ignore
