@@ -6,20 +6,20 @@
   "scripts": {
     "lint": "eslint index.js",
     "package": "ncc build index.js -o dist",
-    "test": "eslint index.js && jest --passWithNoTests"
+    "test": "eslint index.js"
   },
   "keywords": [],
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/github": "^5.0.0",
+    "@actions/github": "^6.0.0",
     "json2md": "^1.12.0",
     "minimist": "^1.2.6",
     "tablemark": "^3.0.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.33.3",
+    "@vercel/ncc": "^0.38.1",
     "eslint": "^8.11.0",
     "eslint-config-google": "^0.14.0"
   }
