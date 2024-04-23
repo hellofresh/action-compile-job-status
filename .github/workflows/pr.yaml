@@ -34,9 +34,12 @@ jobs:
       - run: echo Hello
 
   check-run-defaults:
-    needs: [package, one, two]
     name: Check run (defaults)
+    needs: [package, one, two]
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      actions: read
     steps:
       - uses: actions/checkout@v4
       - uses: ./
